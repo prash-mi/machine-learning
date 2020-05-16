@@ -22,12 +22,22 @@ grad = zeros(size(theta));
 
 
 
+m = size(X, 1);
 
+% reglarized cost function
 
+hypothesis = X * theta;
 
+%set the first theta param zero for using in regularisation 
+thetaJ = [0;theta(2:length(theta),1)];
 
+J = sum((hypothesis-y).^ 2)/(2*m) + (lambda/((2*m))*(sum(thetaJ.^2)));
+% this is same as below
+%J = sum((hypothesis-y).^ 2)/(2*m) + (lambda/((2*m))*(sum(theta.^2)-theta(1,1)^2));
 
+%calculating gradient 
 
+grad = X'*(hypothesis-y)/m + (lambda*thetaJ)/m;
 
 
 % =========================================================================

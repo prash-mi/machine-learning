@@ -51,15 +51,23 @@ error_val   = zeros(m, 1);
 %       end
 %
 
-% ---------------------- Sample Solution ----------------------
+% ----------------------  Solution ----------------------
 
 
-
-
-
-
-
+for i=1:m
+	%get X and y subset till ith row 
+    Xi = X(1:i,:);
+    yi = y(1:i,:);
+	
+	%compute theta for X and y values till ith row
+    theta = trainLinearReg(Xi, yi, lambda);
+	
+	%get the cost for training and validation sets for the current theta, setting lambda as zero 
+    error_train(i) = linearRegCostFunction(Xi, yi, theta,0); 
+    error_val(i) = linearRegCostFunction(Xval, yval, theta,0);
 % -------------------------------------------------------------
+end
+
 
 % =========================================================================
 
