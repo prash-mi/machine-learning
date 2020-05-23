@@ -24,9 +24,31 @@ sigma = 0.3;
 %
 
 
+maxErr = Inf; % setting max error as +infinity 
 
 
+%we will find the C and Sigma combination which results in minimum error
+cVals = [0.01 0.03 0.1 0.3 1 3 10 30];
+sigmaVals = [0.01 0.03 0.1 0.3 1 3 10 30];
 
+for curC = cVals
+	for curSig = sigmaVals
+	% definition of sbmTrain function [model] = svmTrain(X, Y, C, kernelFunction, tol, max_passes)
+	trainedModel = svmTrain(X, y, curC,  @(x1, x2) gaussianKernel(x1, x2, curSig));
+	
+	prediction = svmPredict(trainedModel, Xval);
+	meanPredictionError = mean(double(prediction ~= yval));
+	
+	
+		if meanPredictionError < maxErr
+		%the current set of C and Sigma gives the least amount of error	
+			maxErr = meanPredictionError;
+			C = curC;
+			sigma = curSig;
+		end
+	
+	end
+end
 
 
 % =========================================================================
